@@ -1,0 +1,32 @@
+---
+- name: Install
+  hosts: localhost
+  tasks:
+
+    # - name: install maven
+    #   become: yes
+    #   apt:
+    #     pkg: maven
+    #     state: latest
+    #   nodify:
+    #   - run update
+    # - name: Start tomcat service
+    #   service:
+    #     name: tomcat9
+    #     state: started
+    #     enable: true
+    # - name: Start the Docker Service
+    #   service:
+    #     name: docker
+    #     state: started
+    #     enable: true
+
+    - name: install maven (and other packages if needed)
+      become: yes
+      apt: pkg={{ item }} state=latest update_cache=yes cache_valid_time=3600
+      with_items:
+      - httpd
+    - name: run update
+      apt:
+        update_cache: yes
+
